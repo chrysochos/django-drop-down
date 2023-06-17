@@ -50,22 +50,16 @@ class Command(BaseCommand):
 
 
     def handle(self, *args, **options):
-        print('Be carefull')
-        print('Please write OK and Enter Only if you really want to delete the database contnent')
-        response = input()  # Get user input
-        if response == 'OK':
-            District.objects.all().delete()
-            self.reset_primary_key_sequence('menus_district')
-            self.create_districts()
-            print('Districts created')
-            Person.objects.all().delete()
-            self.reset_primary_key_sequence('menus_people')
-            self.create_people()
-            print('Persons created')
 
-        else:
-            print('Aborted')
-            return
+        District.objects.all().delete()
+        self.reset_primary_key_sequence('menus_district')
+        self.create_districts()
+        print('Districts created')
+        Person.objects.all().delete()
+        self.reset_primary_key_sequence('menus_people')
+        self.create_people()
+        print('Persons created')
+
 
 
 if __name__ == '__main__':
