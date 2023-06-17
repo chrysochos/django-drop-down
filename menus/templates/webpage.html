@@ -1,0 +1,65 @@
+<form>
+    <select name="district" id="district">
+    <option value="">-- Select District --</option>
+      {% for district in districts %}
+        <option value="{{ district.id }}" >{{ district.name }}</option>
+      {% endfor %}
+    </select>
+  
+    <select name="person" id="person">
+    </select>
+  
+    <!-- Other form fields -->
+  
+    <input type="submit" value="Submit">
+  </form>
+  
+  <script>
+    // Create a JavaScript array of persons and districts
+    var districts = [
+        {% for district in districts %}
+        {
+            "id": {{ district.id }},
+            "name": "{{ district.name }}",
+            // Add more properties as needed
+        },
+        {% endfor %}
+    ];
+  var persons = [
+    {% for person in persons %}
+      {
+        id: {{ person.id }},
+        name: "{{ person.name }}",
+        district: "{{ person.district.id }}"
+      },
+    {% endfor %}
+  ];
+  var districtSelect = document.getElementById('district');
+  var personSelect = document.getElementById('person');
+  console.log(persons);
+  console.log(districts);
+  // Now you can work with the persons and districts data in JavaScript
+
+  districtSelect.addEventListener('change', function() {
+    var selectedDistrictId = this.value;
+    updatePersonOptions(selectedDistrictId);
+  });
+
+  function updatePersonOptions(selectedDistrictId) {
+    personSelect.innerHTML = ''; // Clear existing options
+
+    persons.forEach(function(person) {
+      if (person.district === selectedDistrictId) {
+        var option = document.createElement('option');
+        option.value = person.id;
+        option.textContent = person.name;
+        personSelect.appendChild(option);
+      }
+    });
+  }
+
+    // Preselect a district and trigger the change event
+    var preselectedDistrictId = '2'; // Replace with the desired district ID
+  districtSelect.value = preselectedDistrictId;
+  districtSelect.dispatchEvent(new Event('change'));
+</script>
